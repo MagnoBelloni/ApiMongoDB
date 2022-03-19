@@ -4,8 +4,13 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # Custom
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.avi
+*.mp4
 
-apimongodb/medias/
 
 # User-specific files
 *.rsuser
