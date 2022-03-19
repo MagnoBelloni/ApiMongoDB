@@ -1,7 +1,10 @@
-using ApiMongoDB.Infra;
-using ApiMongoDB.Mapper;
+using ApiMongoDB.Config;
+using ApiMongoDB.Repository;
 using ApiMongoDB.Services;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +21,16 @@ builder.Services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOp
 
 builder.Services.AddSingleton(typeof(IMongoRepository<>), typeof(MongoRepository<>));
 builder.Services.AddSingleton<NewsService>();
+builder.Services.AddTransient<UploadService>();
+builder.Services.AddTransient<VideoService>();
 
 //AutoMapper
 builder.Services.AddAutoMapper(typeof(MapperConfig));
+
+builder.Services.AddCors();
+
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.Console(LogEventLevel.Debug));
 
 var app = builder.Build();
 
@@ -32,6 +42,20 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(c =>
+{
+    c.AllowAnyOrigin();
+    c.AllowAnyMethod();
+    c.AllowAnyHeader();
+});
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "Medias")),
+    RequestPath = "/medias"
+});
 
 app.UseAuthorization();
 

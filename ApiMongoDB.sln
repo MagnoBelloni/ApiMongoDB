@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiMongoDB", "ApiMongoDB\ApiMongoDB.csproj", "{0AE20D8F-EF18-4798-85E2-D1FFCFDC84A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiMongoDB", "ApiMongoDB\ApiMongoDB.csproj", "{0AE20D8F-EF18-4798-85E2-D1FFCFDC84A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4BD5DD5C-E1C0-4230-9C1E-3C18472DA03D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3BD6D721-EB4A-46FD-B480-78734215ED7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiMongoDB.Tests", "ApiMongoDB.Tests\ApiMongoDB.Tests.csproj", "{7BEC252E-0088-4DA1-BD0C-7873C7E9512F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +21,17 @@ Global
 		{0AE20D8F-EF18-4798-85E2-D1FFCFDC84A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AE20D8F-EF18-4798-85E2-D1FFCFDC84A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AE20D8F-EF18-4798-85E2-D1FFCFDC84A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BEC252E-0088-4DA1-BD0C-7873C7E9512F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BEC252E-0088-4DA1-BD0C-7873C7E9512F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BEC252E-0088-4DA1-BD0C-7873C7E9512F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BEC252E-0088-4DA1-BD0C-7873C7E9512F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0AE20D8F-EF18-4798-85E2-D1FFCFDC84A7} = {4BD5DD5C-E1C0-4230-9C1E-3C18472DA03D}
+		{7BEC252E-0088-4DA1-BD0C-7873C7E9512F} = {3BD6D721-EB4A-46FD-B480-78734215ED7E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {071E8E90-5E1A-43C7-9D30-850DA9652224}
