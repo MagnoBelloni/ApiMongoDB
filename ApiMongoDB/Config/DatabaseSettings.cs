@@ -1,4 +1,4 @@
-﻿namespace ApiMongoDB.Infra
+﻿namespace ApiMongoDB.Config
 {
     public class DatabaseSettings : IDatabaseSettings
     {

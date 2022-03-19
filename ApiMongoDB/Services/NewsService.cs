@@ -1,5 +1,5 @@
 ﻿using ApiMongoDB.Entities;
-using ApiMongoDB.Infra;
+using ApiMongoDB.Repository;
 using ApiMongoDB.ViewModels;
 using AutoMapper;
 
@@ -21,9 +21,12 @@ namespace ApiMongoDB.Services
         public NewsViewModel Get(string id) =>
             _mapper.Map<NewsViewModel>(_repository.Get(id));
 
+        public NewsViewModel GetBySlug(string slug) =>
+            _mapper.Map<NewsViewModel>(_repository.GetBySlug(slug));
+
         public NewsViewModel Create(NewsCreateViewModel news)
         {
-            var entity = new News(news.Hat, news.Title, news.Text, news.Author, news.Img, news.Link, news.Status);
+            var entity = new News(news.Hat, news.Title, news.Text, news.Author, news.Img, news.Status);
             var response = _repository.Create(entity);
             return _mapper.Map<NewsViewModel>(response);
         }
