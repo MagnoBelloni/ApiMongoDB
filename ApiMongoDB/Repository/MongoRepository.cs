@@ -6,7 +6,7 @@ namespace ApiMongoDB.Repository
 {
     public interface IMongoRepository<T>
     {
-        List<T> Get();
+        Result<T> Get(int page, int quantity);
         T Get(string id);
         T GetBySlug(string slug);
         T Create(T model);
@@ -26,7 +26,25 @@ namespace ApiMongoDB.Repository
             _model = database.GetCollection<T>(typeof(T).Name.ToLower());
         }
 
-        public List<T> Get() => _model.Find(model => model.Deleted == false).ToList();
+        public Result<T> Get(int page, int quantity)
+        {
+            var result = new Result<T>();
+            result.Page = page;
+            result.Quantity = quantity;
+
+            var filter = Builders<T>.Filter.Eq(entity => entity.Deleted, false);
+
+            result.Data = _model.Find(filter)
+                .SortByDescending(entity => entity.PublishDate)
+                .Skip((page - 1) * quantity)
+                .Limit(quantity)
+                .ToList();
+
+            result.Total = _model.CountDocuments(filter);
+            result.TotalPages = result.Total / quantity;
+
+            return result;
+        }
 
         public T GetBySlug(string slug)
         {

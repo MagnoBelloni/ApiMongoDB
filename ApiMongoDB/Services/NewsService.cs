@@ -15,8 +15,8 @@ namespace ApiMongoDB.Services
             _mapper = mapper;
             _repository = repository;
         }
-        public List<NewsViewModel> Get() =>
-            _mapper.Map<List<NewsViewModel>>(_repository.Get());
+        public Result<NewsViewModel> Get(int page, int quantity) =>
+            _mapper.Map<Result<NewsViewModel>>(_repository.Get(page, quantity));
 
         public NewsViewModel Get(string id) =>
             _mapper.Map<NewsViewModel>(_repository.Get(id));

@@ -1,4 +1,4 @@
-using ApiMongoDB.Entities;
+﻿using ApiMongoDB.Entities;
 using ApiMongoDB.Services;
 using ApiMongoDB.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -7,24 +7,24 @@ namespace ApiMongoDB.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class NewsController : ControllerBase
+    public class VideoController : ControllerBase
     {
         private readonly ILogger<NewsController> _logger;
-        private readonly NewsService _newsService;
+        private readonly VideoService _videoService;
 
-        public NewsController(ILogger<NewsController> logger, NewsService newsService)
+        public VideoController(ILogger<NewsController> logger, VideoService videoService)
         {
             _logger = logger;
-            _newsService = newsService;
+            _videoService = videoService;
         }
 
         [HttpGet("{page}/{quantity}")]
-        public ActionResult<Result<NewsViewModel>> Get(int page, int quantity) => _newsService.Get(page, quantity);
+        public ActionResult<Result<VideoViewModel>> Get(int page, int quantity) => _videoService.Get(page, quantity);
 
-        [HttpGet("{id:length(24)}", Name = "GetNews")]
-        public ActionResult<NewsViewModel> Get(string id)
+        [HttpGet("{id:length(24)}", Name = "GetVideos")]
+        public ActionResult<VideoViewModel> Get(string id)
         {
-            var news = _newsService.Get(id);
+            var news = _videoService.Get(id);
 
             if (news is null)
                 return NotFound();
@@ -33,23 +33,23 @@ namespace ApiMongoDB.Controllers
         }
 
         [HttpPost]
-        public ActionResult<NewsViewModel> Create(NewsCreateViewModel news)
+        public ActionResult<VideoViewModel> Create(VideoCreateViewModel news)
         {
-            var result = _newsService.Create(news);
+            var result = _videoService.Create(news);
 
             return CreatedAtRoute("GetNews", new { id = result.Id.ToString() }, result);
         }
 
 
         [HttpPut("{id:length(24)}")]
-        public ActionResult<NewsViewModel> Update(string id, NewsViewModel newsIn)
+        public ActionResult<VideoViewModel> Update(string id, VideoViewModel newsIn)
         {
-            var news = _newsService.Get(id);
+            var news = _videoService.Get(id);
 
             if (news is null)
                 return NotFound();
 
-            _newsService.Update(id, newsIn);
+            _videoService.Update(id, newsIn);
 
             return CreatedAtRoute("GetNews", new { id }, newsIn);
 
@@ -58,12 +58,12 @@ namespace ApiMongoDB.Controllers
         [HttpDelete("{id:length(24)}")]
         public IActionResult Delete(string id)
         {
-            var news = _newsService.Get(id);
+            var news = _videoService.Get(id);
 
             if (news is null)
                 return NotFound();
 
-            _newsService.Remove(news.Id);
+            _videoService.Remove(news.Id);
 
             return Ok("Noticia deletada com sucesso!");
         }

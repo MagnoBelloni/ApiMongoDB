@@ -7,24 +7,24 @@ namespace ApiMongoDB.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NewsExternalController : ControllerBase
+    public class VideoExternalController : ControllerBase
     {
         private readonly ILogger<UploadController> _logger;
-        private readonly NewsService _newsService;
+        private readonly VideoService _videoService;
 
-        public NewsExternalController(ILogger<UploadController> logger, NewsService newsService)
+        public VideoExternalController(ILogger<UploadController> logger, VideoService videoService)
         {
             _logger = logger;
-            _newsService = newsService;
+            _videoService = videoService;
         }
 
         [HttpGet("{page}/{quantity}")]
-        public ActionResult<Result<NewsViewModel>> Get(int page, int quantity) => _newsService.Get(page, quantity);
+        public ActionResult<Result<VideoViewModel>> Get(int page, int quantity) => _videoService.Get(page, quantity);
 
         [HttpGet("{slug}")]
-        public ActionResult<NewsViewModel> Get(string slug)
+        public ActionResult<VideoViewModel> Get(string slug)
         {
-            var news = _newsService.GetBySlug(slug);
+            var news = _videoService.GetBySlug(slug);
 
             if(news is null)
                 return NotFound();

@@ -10,6 +10,9 @@ namespace ApiMongoDB.Config
         {
             CreateMap<News, NewsViewModel>().ReverseMap();
             CreateMap<Video, VideoViewModel>().ReverseMap();
+
+            CreateMap<Result<Video>, Result<VideoViewModel>>().ReverseMap();
+            CreateMap<Result<News>, Result<NewsViewModel>>().ReverseMap();
         }
     }
 }
