@@ -1,10 +1,12 @@
 ﻿using ApiMongoDB.Entities;
 using ApiMongoDB.Services;
 using ApiMongoDB.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiMongoDB.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class VideoController : ControllerBase

@@ -13,7 +13,7 @@ namespace ApiMongoDB.Services
             return validateTypeMedia == Media.Image ? UploadImage(file) : UploadVideo(file);
         }
 
-        private Media GetTypeMedia(string filename)
+        public Media GetTypeMedia(string filename)
         {
             string[] imageExtensions = { ".png", ".jpg", ".jpeg", ".webp" };
 
