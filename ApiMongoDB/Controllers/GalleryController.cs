@@ -12,12 +12,10 @@ namespace ApiMongoDB.Controllers
     public class GalleryController : ControllerBase
     {
 
-        private readonly ILogger<GalleryController> _logger;
         private readonly GalleryService _galleryService;
 
-        public GalleryController(ILogger<GalleryController> logger, GalleryService galleryService)
+        public GalleryController(GalleryService galleryService)
         {
-            _logger = logger;
             _galleryService = galleryService;
         }
 
@@ -40,7 +38,7 @@ namespace ApiMongoDB.Controllers
         {
             var result = _galleryService.Create(news);
 
-            return CreatedAtRoute("GetGallery", new { id = result.Id.ToString() }, result);
+            return CreatedAtRoute("GetGallery", new { id = result?.Id?.ToString() }, result);
         }
 
 
@@ -58,7 +56,7 @@ namespace ApiMongoDB.Controllers
 
             _galleryService.Update(id, galleryIn);
 
-            return CreatedAtRoute("GetGallery", new { id = id }, galleryIn);
+            return CreatedAtRoute("GetGallery", new { id }, galleryIn);
 
         }
 
@@ -70,7 +68,7 @@ namespace ApiMongoDB.Controllers
             if (gallery is null)
                 return NotFound();
 
-            _galleryService.Remove(gallery.Id);
+            _galleryService.Remove(gallery.Id!);
 
             var result = new
             {

@@ -11,12 +11,10 @@ namespace ApiMongoDB.Controllers
     [Route("[controller]")]
     public class NewsController : ControllerBase
     {
-        private readonly ILogger<NewsController> _logger;
         private readonly NewsService _newsService;
 
-        public NewsController(ILogger<NewsController> logger, NewsService newsService)
+        public NewsController(NewsService newsService)
         {
-            _logger = logger;
             _newsService = newsService;
         }
 
@@ -39,7 +37,7 @@ namespace ApiMongoDB.Controllers
         {
             var result = _newsService.Create(news);
 
-            return CreatedAtRoute("GetNews", new { id = result.Id.ToString() }, result);
+            return CreatedAtRoute("GetNews", new { id = result?.Id?.ToString() }, result);
         }
 
 
@@ -65,7 +63,7 @@ namespace ApiMongoDB.Controllers
             if (news is null)
                 return NotFound();
 
-            _newsService.Remove(news.Id);
+            _newsService.Remove(news.Id!);
 
             return Ok("Noticia deletada com sucesso!");
         }

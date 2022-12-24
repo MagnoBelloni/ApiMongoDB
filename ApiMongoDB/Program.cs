@@ -1,7 +1,11 @@
 using ApiMongoDB.Config;
 using ApiMongoDB.Repository;
 using ApiMongoDB.Services;
+using ApiMongoDB.Services.Interfaces;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -33,7 +37,7 @@ builder.Services.AddSwaggerGen(c =>
             {
                 Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "bearer" }
             },
-            new string[] {}
+            Array.Empty<string>()
         }
     });
 });
@@ -43,11 +47,36 @@ builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection(na
 builder.Services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 builder.Services.AddSingleton(typeof(IMongoRepository<>), typeof(MongoRepository<>));
 
+//Redis
+builder.Services.AddDistributedRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetSection("Redis:ConnectionString").Value;
+});
+
+//Healthcheck
+builder.Services.AddHealthChecks()
+    .AddRedis(builder.Configuration.GetSection("Redis:ConnectionString").Value, tags: new string[] { "db", "" })
+    .AddMongoDb($"{builder.Configuration.GetSection("DatabaseSettings:ConnectionString").Value}/{builder.Configuration.GetSection("DatabaseSettings:DatabaseName").Value}", name: "mongodb", tags: new string[] { "db", "data" });
+
+builder.Services.AddHealthChecksUI(opt =>
+{
+    opt.SetEvaluationTimeInSeconds(15);
+    opt.MaximumHistoryEntriesPerEndpoint(60);
+    opt.SetApiMaxActiveRequests(1);
+
+    opt.AddHealthCheckEndpoint("default api", "/health");
+}).AddInMemoryStorage();
+
 // Services
 builder.Services.AddSingleton<NewsService>();
 builder.Services.AddTransient<UploadService>();
 builder.Services.AddTransient<VideoService>();
 builder.Services.AddTransient<GalleryService>();
+
+//Cache
+//builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
+//builder.Services.AddSingleton<ICacheService, CacheMemoryService>();
+builder.Services.AddSingleton<ICacheService, CacheRedisService>();
 
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(MapperConfig));
@@ -82,6 +111,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//Healthcheck
+app.UseHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+}).UseHealthChecksUI(h => h.UIPath = "/health-ui");
 
 // CORS
 app.UseCors(c =>

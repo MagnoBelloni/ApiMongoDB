@@ -11,7 +11,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3BD6D721
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiMongoDB.Tests", "ApiMongoDB.Tests\ApiMongoDB.Tests.csproj", "{7BEC252E-0088-4DA1-BD0C-7873C7E9512F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiMongoDB.Auth", "ApiMongoDB.Auth\ApiMongoDB.Auth.csproj", "{5671FD7A-2501-4243-9A33-08A28294E1C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiMongoDB.Auth", "ApiMongoDB.Auth\ApiMongoDB.Auth.csproj", "{5671FD7A-2501-4243-9A33-08A28294E1C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3668A880-41EB-469B-AB9F-B4B23923D2DF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

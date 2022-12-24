@@ -19,7 +19,7 @@ namespace ApiMongoDB.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(IFormFile file)
+        public IActionResult? Post(IFormFile file)
         {
             try
             {

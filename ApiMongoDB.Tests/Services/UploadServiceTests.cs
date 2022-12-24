@@ -25,9 +25,9 @@ namespace ApiMongoDB.Tests.Services
 
 
         [Theory]
-        [InlineData(Media.Image, "image.psd")]
-        [InlineData(Media.Video, "video.mp3")]
-        public void Should_verify_if_Type_isent_Image_or_Video(Media media, string filename)
+        [InlineData("image.psd")]
+        [InlineData("video.mp3")]
+        public void Should_verify_if_Type_isent_Image_or_Video(string filename)
         {
             //Arrange
             var service = new UploadService();

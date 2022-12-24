@@ -39,7 +39,7 @@ namespace ApiMongoDB.Controllers
         {
             var result = _videoService.Create(news);
 
-            return CreatedAtRoute("GetNews", new { id = result.Id.ToString() }, result);
+            return CreatedAtRoute("GetNews", new { id = result.Id!.ToString() }, result);
         }
 
 
@@ -65,7 +65,7 @@ namespace ApiMongoDB.Controllers
             if (news is null)
                 return NotFound();
 
-            _videoService.Remove(news.Id);
+            _videoService.Remove(news.Id!);
 
             return Ok("Noticia deletada com sucesso!");
         }
